@@ -38,6 +38,12 @@ public class Board {
 		adjacent.add(new Position(4, 5));
 
 	}
+	
+	public void placeMarker(int row, int col, int colour){
+		board[row][col] = colour;
+		//TODO: add adjacent tiles to adjacent list, remove this tile from list
+		//TODO: check if allowed?
+	}
 
 	public List<Position> getAdjacent() {
 		return adjacent;
@@ -52,28 +58,36 @@ public class Board {
 			return false;
 		}
 
-		if (legal(pos.row, pos.col, -1, -1, pColour)) {
+		if (allowedDirection(pos.row, pos.col, -1, -1, pColour) && 
+				legal(pos.row, pos.col, -1, -1, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, -1, 0, pColour)) {
+		if (allowedDirection(pos.row, pos.col, -1, 0, pColour) && 
+				legal(pos.row, pos.col, -1, 0, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, -1, 1, pColour)) {
+		if (allowedDirection(pos.row, pos.col, -1, 1, pColour) && 
+				legal(pos.row, pos.col, -1, 1, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, 0, -1, pColour)) {
+		if (allowedDirection(pos.row, pos.col, 0, -1, pColour) && 
+				legal(pos.row, pos.col, 0, -1, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, 0, 1, pColour)) {
+		if (allowedDirection(pos.row, pos.col, 0, 1, pColour) && 
+				legal(pos.row, pos.col, 0, 1, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, 1, -1, pColour)) {
+		if (allowedDirection(pos.row, pos.col, 1, -1, pColour) && 
+				legal(pos.row, pos.col, 1, -1, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, 1, 0, pColour)) {
+		if (allowedDirection(pos.row, pos.col, 1, 0, pColour) && 
+				legal(pos.row, pos.col, 1, 0, pColour)) {
 			return true;
 		}
-		if (legal(pos.row, pos.col, 1, 1, pColour)) {
+		if (allowedDirection(pos.row, pos.col, 1, 1, pColour) && 
+				legal(pos.row, pos.col, 1, 1, pColour)) {
 			return true;
 		}
 
@@ -90,13 +104,26 @@ public class Board {
 		if(colour == EMPTY){
 			return false;
 		}
-		
-		//TODO
-		// changing something to test a theory
-		
+		if(pC == colour){
+			return true;
+		}
 		return legal(newR, newC, dRow, dCol, pC);
+		
+		//TODO: done?
 	}
 
+	private boolean allowedDirection(int r, int c, int dr, int dc, int pC){
+		if(check(r+dr) && check(c+dc)){
+			if(pC == WHITE && board[r+dr][c+dc] == BLACK){
+				return true;
+			}
+			if(pC == BLACK && board[r+dr][c+dc] == WHITE){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private boolean check(int coord) {
 		return (coord >= 0) && (coord < 8);
 	}

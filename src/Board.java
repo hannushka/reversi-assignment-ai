@@ -92,7 +92,7 @@ public class Board {
 		}
 		
 		//TODO
-		
+		// changing something to test a theory
 		
 		return legal(newR, newC, dRow, dCol, pC);
 	}

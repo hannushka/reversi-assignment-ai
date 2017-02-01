@@ -10,6 +10,11 @@ public class Game {
 		b.start();
 	}
 	
+	/**
+	 * 
+	 * @param playerColour - the colour of the player who wants to play next
+	 * @return a list of legal placement of tiles
+	 */
 	public List<Position> possibleMoves(int playerColour){
 		List<Position> moves = new LinkedList<Position>();
 		List<Position> adj = board.getAdjacent();

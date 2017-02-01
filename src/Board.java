@@ -18,6 +18,9 @@ public class Board {
 		 */
 	}
 
+	/**
+	 * Sets ut the starting position of the board
+	 */
 	public void start() {
 		board[3][3] = WHITE;
 		board[3][4] = BLACK;
@@ -39,19 +42,56 @@ public class Board {
 
 	}
 	
-	public void placeMarker(int row, int col, int colour){
-		board[row][col] = colour;
-		//TODO: add adjacent tiles to adjacent list, remove this tile from list
+	/**
+	 * Places a tile at position p with colour colour
+	 * OBS: Do NOT check if the position is allowed!
+	 * 
+	 * @param p - the position to put the tile
+	 * @param colour - the colour of the tile to be put, Has to be BLACK or WHITE
+	 * @return true - if succeded with placement
+	 */
+	public boolean placeMarker(Position p, int colour){
+		if(colour != BLACK && colour != WHITE){
+			return false;
+		}
+		board[p.row][p.col] = colour;
+		adjacent.remove(p);
+		
+		addAdjacent(p, -1, -1);
+		addAdjacent(p, -1, 0);
+		addAdjacent(p, -1, 1);
+		addAdjacent(p, 0, -1);
+		addAdjacent(p, 0, 1);
+		addAdjacent(p, 1, -1);
+		addAdjacent(p, 1, 0);
+		addAdjacent(p, 1, 1);
+		return true;
 		//TODO: check if allowed?
 	}
 
+	private void addAdjacent(Position p, int dr, int dc){
+		int r = p.row+dr;
+		int c = p.col+dc;
+		
+		if(check(r) && check(c) && board[r][c] == EMPTY){
+			adjacent.add(new Position(r, c));
+		}
+	}
+	
+	/**
+	 * Returns a list of adjacent tiles to those on the board, any legal move has to be adjacent.
+	 * 
+	 * @return a list of adjacent tiles to the ones on the board
+	 */
 	public List<Position> getAdjacent() {
 		return adjacent;
 	}
 
 	/**
-	 * @param pos:
-	 *            the position to check
+	 * Checks if a position is legal to place a tile in
+	 * 
+	 * @param pos - the position to check
+	 * @param pColour - the colour of the tile to be put
 	 **/
 	public boolean legal(Position pos, int pColour) {
 		if (!adjacent.contains(pos) || board[pos.row][pos.col] != EMPTY) {
@@ -128,6 +168,11 @@ public class Board {
 		return (coord >= 0) && (coord < 8);
 	}
 
+	/**
+	 * Returns the current layout of the board as a string.
+	 * 
+	 * @return a string with the current layout of the board.
+	 */
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("|--------|\n");

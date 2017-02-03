@@ -55,7 +55,7 @@ public class Board {
 	 * @return true - if succeded with placement
 	 */
 	public boolean placeMarker(Position p, int colour) {
-		if (!legal(p, colour)) {
+		if (!isLegal(p, colour, true)) {
 			return false;
 		}
 		board[p.getRow()][p.getColumn()] = colour;
@@ -86,8 +86,9 @@ public class Board {
 		int r = p.getRow() + dr;
 		int c = p.getColumn() + dc;
 
-		if (check(r) && check(c) && board[r][c] == EMPTY) {
-			adjacent.add(new Position(r, c));
+		Position newP = new Position(r, c);
+		if (check(r) && check(c) && board[r][c] == EMPTY && !adjacent.contains(newP)) {
+			adjacent.add(newP);
 		}
 	}
 
@@ -108,57 +109,89 @@ public class Board {
 	 *            - the position to check
 	 * @param pColour
 	 *            - the colour of the tile to be put
+	 * @param play - true if trying to place tile, false if just check
 	 **/
-	public boolean legal(Position pos, int pColour) {
+	public boolean isLegal(Position pos, int pColour, boolean play) {
 		if (board[pos.getRow()][pos.getColumn()] != EMPTY || !adjacent.contains(pos)) {
 			return false;
 		}
 
-		if (allowedDirection(pos, -1, -1, pColour) && legal(pos, -1, -1, pColour)) {
-			return true;
+		boolean returnValue = false;
+		List<Position> localFlip = new LinkedList<Position>();
+		if (allowedDirection(pos, -1, -1, pColour) && legal(pos, -1, -1, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
 		}
-		if (allowedDirection(pos, -1, 0, pColour) && legal(pos, -1, 0, pColour)) {
-			return true;
+		localFlip.clear();
+		if (allowedDirection(pos, -1, 0, pColour) && legal(pos, -1, 0, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
 		}
-		if (allowedDirection(pos, -1, 1, pColour) && legal(pos, -1, 1, pColour)) {
-			return true;
+		localFlip.clear();
+		if (allowedDirection(pos, -1, 1, pColour) && legal(pos, -1, 1, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
 		}
-		if (allowedDirection(pos, 0, -1, pColour) && legal(pos, 0, -1, pColour)) {
-			return true;
+		localFlip.clear();
+		if (allowedDirection(pos, 0, -1, pColour) && legal(pos, 0, -1, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
+		} 
+		localFlip.clear();
+		if (allowedDirection(pos, 0, 1, pColour) && legal(pos, 0, 1, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
+		} 
+		localFlip.clear();
+		if (allowedDirection(pos, 1, -1, pColour) && legal(pos, 1, -1, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
 		}
-		if (allowedDirection(pos, 0, 1, pColour) && legal(pos, 0, 1, pColour)) {
-			return true;
+		localFlip.clear();
+		if (allowedDirection(pos, 1, 0, pColour) && legal(pos, 1, 0, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
 		}
-		if (allowedDirection(pos, 1, -1, pColour) && legal(pos, 1, -1, pColour)) {
-			return true;
+		localFlip.clear();
+		if (allowedDirection(pos, 1, 1, pColour) && legal(pos, 1, 1, pColour, localFlip)) {
+			returnValue = true;
+			for(Position p : localFlip){
+				if(play && !flip.contains(p)) flip.add(p);
+			}
 		}
-		if (allowedDirection(pos, 1, 0, pColour) && legal(pos, 1, 0, pColour)) {
-			return true;
-		}
-		if (allowedDirection(pos, 1, 1, pColour) && legal(pos, 1, 1, pColour)) {
-			return true;
-		}
-
-		return false;
+		return returnValue;
 	}
 
-	private boolean legal(Position p, int dRow, int dCol, int pC) {
+	private boolean legal(Position p, int dRow, int dCol, int pC, List<Position> lF) {
 		int newR = p.getRow() + dRow;
 		int newC = p.getColumn() + dCol;
 		if (!check(newR) || !check(newC)) {
-			flip.clear();
 			return false;
 		}
 		int colour = board[newR][newC];
 		if (colour == EMPTY) {
-			flip.clear();
 			return false;
 		}
 		if (pC == colour) {
-			flip.add(p);
 			return true;
 		}
-		return legal(new Position(newR, newC), dRow, dCol, pC);
+		Position newP = new Position(newR, newC);
+		lF.add(newP);
+		return legal(newP, dRow, dCol, pC, lF);
 
 	}
 

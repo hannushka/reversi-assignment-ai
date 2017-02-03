@@ -21,7 +21,7 @@ public class Game {
 		List<Position> moves = new LinkedList<Position>();
 		List<Position> adj = board.getAdjacent();
 		for(Position pos : adj){
-			if(board.legal(pos, playerColour)){
+			if(board.isLegal(pos, playerColour, false)){
 				moves.add(pos);
 			}
 		}
@@ -36,7 +36,7 @@ public class Game {
 	public Position possibleFirstMove(int playerColour){
 		List<Position> adj = board.getAdjacent();
 		for(Position pos : adj){
-			if(board.legal(pos, playerColour)){
+			if(board.isLegal(pos, playerColour, false)){
 				return pos;
 			}
 		}

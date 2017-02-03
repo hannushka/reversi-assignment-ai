@@ -27,13 +27,23 @@ public class Main {
 		System.out.println(b.getAdjacent());
 		*/
 		Game g = new Game();
-		//System.out.println(g.possibleMoves(Board.BLACK));
-		g.placeTile(p3, Board.BLACK);
-		System.out.println(g.possibleMoves(Board.WHITE));
+		AiPlayer white = new AiPlayer(g, Board.WHITE);
+		AiPlayer black = new AiPlayer(g, Board.BLACK);
+		
 		System.out.println(g);
-		g.placeTile(p2, Board.WHITE);
-		//g.placeTile(p3, Board.BLACK);
+		black.doTurn();
 		System.out.println(g);
+		white.doTurn();
+		System.out.println(g);
+		black.doTurn();
+		System.out.println(g);
+		white.doTurn();
+		System.out.println(g);
+		black.doTurn();
+		System.out.println(g);
+		white.doTurn();
+		System.out.println(g);
+		
 	}
 
 }

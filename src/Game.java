@@ -1,76 +1,63 @@
-import java.util.LinkedList;
-import java.util.List;
 
 public class Game {
-	
-	private Board board;
+
+	private AiPlayer white, black;
 	private boolean turnBlack;
-	
-	public Game(){
-		board = new Board();
-		board.start();
+	private boolean gameOver, blackDone, whiteDone;
+
+	public Game(AiPlayer w, AiPlayer b) {
+		white = w;
+		black = b;
 		turnBlack = true;
+		gameOver = false;
 	}
-	
-	/**
-	 * 
-	 * @param playerColour - the colour of the player who wants to play next
-	 * @return a list of legal placement of tiles, returns empty list if no available
-	 */
-	public List<Position> possibleMoves(int playerColour){
-		List<Position> moves = new LinkedList<Position>();
-		List<Position> adj = board.getAdjacent();
-		for(Position pos : adj){
-			if(board.isLegal(pos, playerColour, false)){
-				moves.add(pos);
+
+	public void play() {
+		while (!gameOver) {
+			if (turnBlack) {
+				blackDone = black.doTurn();
+			} else {
+				whiteDone = white.doTurn();
 			}
-		}
-		return moves;
-	}
-	
-	/**
-	 * 
-	 * @param playerColour - the colour of the player who wants to play next
-	 * @return a placement of a legal tile, null if no available
-	 */
-	public Position possibleFirstMove(int playerColour){
-		List<Position> adj = board.getAdjacent();
-		for(Position pos : adj){
-			if(board.isLegal(pos, playerColour, false)){
-				return pos;
+			turnBlack = !turnBlack;
+			System.out.println(toString());
+			if (black.fullBoard() || (!whiteDone && !blackDone)) {
+				gameOver = true;
+				String winner;
+				int blackTiles = black.nbrTiles();
+				int whiteTiles = white.nbrTiles();
+				if(blackTiles > whiteTiles) {
+					winner = "Black won!";
+				} else if (blackTiles < whiteTiles) {
+					winner = "White won!";
+				} else {
+					winner = "It's a tie!";
+				}
+				
+				System.out.println(winner);
 			}
+			
 		}
-		return null;
 	}
-	
+
 	/**
-	 * 
-	 * @param p - position to add a tile in
-	 * @param colour - colour of tile to be added (Have to be BLACK or WHITE, not checked)
-	 * @return true if succeeded
-	 */
-	public boolean placeTile(Position p, int colour){
-		if(colour == Board.BLACK){
-			turnBlack = false;
-		} else { //colour is WHITE
-			turnBlack = true;
-		}
-		return board.placeMarker(p, colour);
-	}
-	
-	/**
-	 * Returns the current game as a string. Contains how many placed tiles 
-	 * each colour has and whose turn it is. 
+	 * Returns the current game as a string. Contains how many placed tiles each
+	 * colour has and whose turn it is.
 	 * 
 	 * @return a string with the current game.
 	 */
-	public String toString(){
-		StringBuilder game = new StringBuilder(); 
-		game.append("Black:\t" + board.getNbrTiles(Board.BLACK) + "\n");
-		if(turnBlack) game.append("My turn\n");
-		game.append(board.toString() + "\n");
-		game.append("White:\t" + board.getNbrTiles(Board.WHITE) + "\n");
-		if(!turnBlack) game.append("My turn\n");
+	public String toString() {
+		StringBuilder game = new StringBuilder();
+		game.append("Black: " + black.nbrTiles() + "\n");
+		if (turnBlack) {
+			game.append("My turn\n");
+			game.append(black.printBoard() + "\n");
+		} else {
+			game.append(white.printBoard() + "\n");
+		}
+		game.append("White: " + white.nbrTiles() + "\n");
+		if (!turnBlack)
+			game.append("My turn\n");
 		return game.toString();
 	}
 }

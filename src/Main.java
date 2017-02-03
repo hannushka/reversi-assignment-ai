@@ -7,11 +7,11 @@ public class Main {
 		Position p1 = new Position(1,'a');
 		Position p2 = new Position(3,'c');
 		Position p3 = new Position(3,'d');
-		/*
-		System.out.println(p1);
+		
 		
 		Board b = new Board();
-		b.start();
+		
+		b.start();/*
 		System.out.println(b.toString());
 		
 		System.out.println("BLACK, 3d: " + b.legal(p3, Board.BLACK));
@@ -26,23 +26,12 @@ public class Main {
 		System.out.println(b.toString());
 		System.out.println(b.getAdjacent());
 		*/
-		Game g = new Game();
-		AiPlayer white = new AiPlayer(g, Board.WHITE);
-		AiPlayer black = new AiPlayer(g, Board.BLACK);
 		
-		System.out.println(g);
-		black.doTurn();
-		System.out.println(g);
-		white.doTurn();
-		System.out.println(g);
-		black.doTurn();
-		System.out.println(g);
-		white.doTurn();
-		System.out.println(g);
-		black.doTurn();
-		System.out.println(g);
-		white.doTurn();
-		System.out.println(g);
+		AiPlayer white = new AiPlayer(b, Board.WHITE);
+		AiPlayer black = new AiPlayer(b, Board.BLACK);
+		Game g = new Game(white, black);
+		
+		g.play();
 		
 	}
 

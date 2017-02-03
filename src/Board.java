@@ -260,4 +260,15 @@ public class Board {
 		return sb.toString();
 	}
 
+	public boolean full() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if(board[i][j] == EMPTY){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 }

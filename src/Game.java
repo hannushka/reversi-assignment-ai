@@ -4,10 +4,12 @@ import java.util.List;
 public class Game {
 	
 	private Board board;
+	private boolean turnBlack;
 	
-	public Game(Board b){
-		board = b;
-		b.start();
+	public Game(){
+		board = new Board();
+		board.start();
+		turnBlack = true;
 	}
 	
 	/**
@@ -24,5 +26,30 @@ public class Game {
 			}
 		}
 		return moves;
+	}
+	
+	/**
+	 * 
+	 * @param p - position to add a tile in
+	 * @param colour - colour of tile to be added (Have to be BLACK or WHITE, not checked)
+	 * @return true if succeeded
+	 */
+	public boolean placeTile(Position p, int colour){
+		if(colour == Board.BLACK){
+			turnBlack = false;
+		} else { //colour is WHITE
+			turnBlack = true;
+		}
+		return board.placeMarker(p, colour);
+	}
+	
+	public String toString(){
+		StringBuilder game = new StringBuilder(); 
+		game.append("Black:\t" + board.getNbrTiles(Board.BLACK) + "\n");
+		if(turnBlack) game.append("My turn\n");
+		game.append(board.toString() + "\n");
+		game.append("White:\t" + board.getNbrTiles(Board.WHITE) + "\n");
+		if(!turnBlack) game.append("My turn\n");
+		return game.toString();
 	}
 }

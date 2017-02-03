@@ -15,7 +15,7 @@ public class Game {
 	/**
 	 * 
 	 * @param playerColour - the colour of the player who wants to play next
-	 * @return a list of legal placement of tiles
+	 * @return a list of legal placement of tiles, returns empty list if no available
 	 */
 	public List<Position> possibleMoves(int playerColour){
 		List<Position> moves = new LinkedList<Position>();
@@ -26,6 +26,21 @@ public class Game {
 			}
 		}
 		return moves;
+	}
+	
+	/**
+	 * 
+	 * @param playerColour - the colour of the player who wants to play next
+	 * @return a placement of a legal tile, null if no available
+	 */
+	public Position possibleFirstMove(int playerColour){
+		List<Position> adj = board.getAdjacent();
+		for(Position pos : adj){
+			if(board.legal(pos, playerColour)){
+				return pos;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -43,6 +58,12 @@ public class Game {
 		return board.placeMarker(p, colour);
 	}
 	
+	/**
+	 * Returns the current game as a string. Contains how many placed tiles 
+	 * each colour has and whose turn it is. 
+	 * 
+	 * @return a string with the current game.
+	 */
 	public String toString(){
 		StringBuilder game = new StringBuilder(); 
 		game.append("Black:\t" + board.getNbrTiles(Board.BLACK) + "\n");

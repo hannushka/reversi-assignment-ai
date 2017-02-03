@@ -1,12 +1,11 @@
-import java.util.LinkedList;
-import java.util.List;
+
 
 public class Main {
 
 	public static void main(String[] args) {
 		
 		Position p1 = new Position(1,'a');
-		Position p2 = new Position(1,'b');
+		Position p2 = new Position(3,'c');
 		Position p3 = new Position(3,'d');
 		/*
 		System.out.println(p1);
@@ -30,7 +29,10 @@ public class Main {
 		Game g = new Game();
 		//System.out.println(g.possibleMoves(Board.BLACK));
 		g.placeTile(p3, Board.BLACK);
-		//System.out.println(g.possibleMoves(Board.WHITE));
+		System.out.println(g.possibleMoves(Board.WHITE));
+		System.out.println(g);
+		g.placeTile(p2, Board.WHITE);
+		//g.placeTile(p3, Board.BLACK);
 		System.out.println(g);
 	}
 

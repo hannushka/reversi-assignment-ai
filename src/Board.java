@@ -5,13 +5,15 @@ public class Board {
 	public static final int BLACK = 1;
 	public static final int WHITE = -1;
 	public static final int EMPTY = 0;
-	List<Position> adjacent;
-
+	
+	private List<Position> adjacent;
 	private int[][] board;
+	private List<Position> flip;
 
 	public Board() {
 		board = new int[8][8];
 		adjacent = new LinkedList<Position>();
+		flip = new LinkedList<Position>();
 		/*
 		 * for(int i = 0; i < 8; i++){ for(int j = 0; j < 8; j++){ board[i][j] =
 		 * EMPTY; } } is done implicit
@@ -67,6 +69,16 @@ public class Board {
 		addAdjacent(p, 1, -1);
 		addAdjacent(p, 1, 0);
 		addAdjacent(p, 1, 1);
+		
+		for(Position pos: flip){
+			if(board[pos.getRow()][pos.getColumn()] == BLACK){
+				board[pos.getRow()][pos.getColumn()] = WHITE;
+			} else {
+				board[pos.getRow()][pos.getColumn()] = BLACK;
+			}
+		}
+		flip.clear();
+		
 		return true;
 	}
 
@@ -134,13 +146,16 @@ public class Board {
 		int newR = p.getRow() + dRow;
 		int newC = p.getColumn() + dCol;
 		if (!check(newR) || !check(newC)) {
+			flip.clear();
 			return false;
 		}
 		int colour = board[newR][newC];
 		if (colour == EMPTY) {
+			flip.clear();
 			return false;
 		}
 		if (pC == colour) {
+			flip.add(p);
 			return true;
 		}
 		return legal(new Position(newR, newC), dRow, dCol, pC);
@@ -165,6 +180,27 @@ public class Board {
 		return (coord >= 0) && (coord < 8);
 	}
 
+	/**
+	 * 
+	 * @param colour:
+	 *            BLACK och WHITE depending on which colour to be counted (not
+	 *            checked)
+	 * @return nbr of colour tiles on board
+	 */
+	public int getNbrTiles(int colour) {
+		int count = 0;
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if(board[i][j] == colour){
+					count++;
+				}
+			}
+		}
+
+		return count;
+	}
+	
 	/**
 	 * Returns the current layout of the board as a string.
 	 * 
@@ -191,24 +227,4 @@ public class Board {
 		return sb.toString();
 	}
 
-	/**
-	 * 
-	 * @param colour:
-	 *            BLACK och WHITE depending on which colour to be counted (not
-	 *            checked)
-	 * @return nbr of colour tiles on board
-	 */
-	public int getNbrTiles(int colour) {
-		int count = 0;
-
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if(board[i][j] == colour){
-					count++;
-				}
-			}
-		}
-
-		return count;
-	}
 }

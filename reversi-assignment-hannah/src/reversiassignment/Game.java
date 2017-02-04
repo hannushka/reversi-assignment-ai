@@ -15,17 +15,19 @@ public class Game {
 	}
 	
 	private void setUp() {
-		int choice;
+		String input;
 		do {
 			System.out.println("Which color would you like to play? 1 = black, 2 = white");
-			choice = sc.nextInt();
-		} while (choice != 1 && choice != 2);
+			input = sc.next();
+		} while (!input.matches("[1-2]"));
+		Helper h = new Helper();
+		int choice = Integer.parseInt(input);
 		if (choice == 1) {
-			player1 = new PlayerAI(Cellstate.WHITE, board, 2);
-			player2 = new PlayerHuman(sc, Cellstate.BLACK, board, 2);
+			player1 = new PlayerAI(Cellstate.WHITE, board, 2, h);
+			player2 = new PlayerHuman(sc, Cellstate.BLACK, board, 2, h);
 		} else {
-			player1 = new PlayerHuman(sc, Cellstate.WHITE, board, 2);
-			player2 = new PlayerAI(Cellstate.BLACK, board, 2);
+			player1 = new PlayerHuman(sc, Cellstate.WHITE, board, 2, h);
+			player2 = new PlayerAI(Cellstate.BLACK, board, 2, h);
 		}
 		System.out.print(board.toString()); //Print board
 	}
@@ -40,7 +42,7 @@ public class Game {
 			currentPlayer.modifyScore(flips+1);
 			otherPlayer.modifyScore(-flips);
 			System.out.print(board.toString()); //Print new board
-			System.out.println("Score: B-" + player1.getScore() + " W-" + player2.getScore());
+			System.out.println("Score: W-" + player1.getScore() + " B-" + player2.getScore());
 			//Next player
 			tmp = currentPlayer;
 			currentPlayer = otherPlayer;

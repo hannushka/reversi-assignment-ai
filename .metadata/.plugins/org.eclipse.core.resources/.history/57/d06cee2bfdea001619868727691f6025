@@ -1,0 +1,65 @@
+package reversiassignment;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class PlayerHuman implements Player {
+	private Scanner sc;
+	private Cellstate color;
+	private Board board;
+	private int score;
+	private Helper helper;
+	
+	public PlayerHuman(Scanner scanner, Cellstate c, Board b, int s, Helper h) {
+		sc = scanner;
+		color = c;
+		board = b;
+		score = s;
+		helper = h;
+	}
+
+	public int playerMove() {
+		Iterator<Position> itr1 = board.getAdjs().iterator();
+		Set<Position> flips;
+		Position p;
+		
+		System.out.println("Your turn! Where would you like to place a marker? Here are your options:");
+		while (itr1.hasNext()) {
+			p = itr1.next();
+			System.out.println(p.toString());
+		}
+		String input;
+		do {
+			System.out.print("Your choice: ");
+			input = sc.next();
+			System.out.println(input);
+		} while (!input.matches("[1-8][a-h]"));
+		p = board.getPositionFromCoords(input);
+		System.out.println("You chose " + p.toString());
+		flips = evaluateMove(p, color, board);
+		// Placing and flipping
+		if (!flips.isEmpty()) {
+			System.out.println("Player " + color + " placed marker at " + p.toString());
+			board.placeMarker(p, color);
+			board.flipMarkers(flips, color);
+		}
+		return flips.size();
+	}
+
+	public Cellstate getColor() {
+		return color;
+	}
+
+	public void modifyScore(int points) {
+		score += points;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+}

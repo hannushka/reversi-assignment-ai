@@ -11,10 +11,10 @@ public class Position {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof Position) {
-			Position p = (Position) o;
-			return p.r == r && p.c == c;
+	public boolean equals(Object other){
+		if (other instanceof Position) {
+			Position p = (Position) other;
+			return p.r==r&&p.c==c;
 		}
 		return false;
 	}

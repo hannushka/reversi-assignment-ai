@@ -1,0 +1,47 @@
+package reversiassignment;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class Game {
+	private Board board;
+	private Helper helper;
+	private int scoreW, scoreB;
+
+	public Game() {
+		board = new Board();
+		helper = new Helper();
+	}
+
+	public void play() {
+		System.out.print(board.toString()); //Print board
+		Cellstate player = Cellstate.BLACK;
+		while (!board.gameOver()) {
+			int flips = playerMove(player); //Player makes move
+			calcScore(flips.size(),player);
+			System.out.print(board.toString()); //Print new board
+			System.out.println("Score: B-" + scoreB + " W-" + scoreW);
+			//Next player
+			if (player == Cellstate.BLACK)
+				player = Cellstate.WHITE;
+			else
+				player = Cellstate.BLACK;
+		}
+	}
+	
+	private void calcScore(int nbrOfFlips, Cellstate player) {
+		if (player == Cellstate.BLACK) { 
+			scoreB += 1 + nbrOfFlips;
+			scoreW -= nbrOfFlips;
+		} else {
+			scoreW += 1 + nbrOfFlips;
+			scoreB -= nbrOfFlips;
+		}
+	}
+
+	public static void main(String[] args) throws InterruptedException {
+		new Game().play();
+	}
+}

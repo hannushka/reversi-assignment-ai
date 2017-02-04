@@ -1,0 +1,14 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public class PlayerAI {
+	private Cellstate color;
+	private int score;
+	
+	public PlayerAI(Cellstate c) {
+		this.color = c;
+		score = 2;
+	}
+
+}

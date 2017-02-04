@@ -1,0 +1,31 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public class PlayerHuman implements Player {
+	private Scanner sc;
+	
+	public int playerMove() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Cellstate getColor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void modifyScore(int points) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getScore() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

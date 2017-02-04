@@ -1,66 +1,52 @@
 package reversiassignment;
 
-import java.util.Iterator;
-import java.util.Set;
+import java.util.Scanner;
 
 import reversiassignment.Board.Cellstate;
 
 public class Game {
-	private Board b;
-	private Helper helper;
-	private int scoreW, scoreB;
+	private Board board;
+	private Scanner sc;
+	private Player player1, player2;
 
 	public Game() {
-		b = new Board();
-		helper = new Helper(b);
-		scoreW = 2;
-		scoreB = 2;
+		board = new Board();
+		sc = new Scanner(System.in);
+	}
+	
+	private void setUp() {
+		int choice;
+		do {
+			System.out.println("Which color would you like to play? 1 = black, 2 = white");
+			choice = sc.nextInt();
+		} while (choice != 1 && choice != 2);
+		if (choice == 1) {
+			player1 = new PlayerAI(Cellstate.WHITE, board, 2);
+			player2 = new PlayerHuman(sc, Cellstate.BLACK, board, 2);
+		} else {
+			player1 = new PlayerHuman(sc, Cellstate.WHITE, board, 2);
+			player2 = new PlayerAI(Cellstate.BLACK, board, 2);
+		}
+		System.out.print(board.toString()); //Print board
 	}
 
 	public void play() {
-		System.out.print(b.toString());
-		Cellstate player = Cellstate.BLACK;
-		while (!b.gameOver()) {
-			//Player makes move
-			playerMove(player);
-			//Print new board
-				System.out.print(b.toString());
+		setUp();
+		Player currentPlayer = player1;
+		Player otherPlayer = player2;
+		Player tmp;
+		while (!board.gameOver()) {
+			int flips = currentPlayer.playerMove(); //Player makes move
+			currentPlayer.modifyScore(flips+1);
+			otherPlayer.modifyScore(-flips);
+			System.out.print(board.toString()); //Print new board
+			System.out.println("Score: B-" + player1.getScore() + " W-" + player2.getScore());
 			//Next player
-			if (player == Cellstate.BLACK)
-				player = Cellstate.WHITE;
-			else
-				player = Cellstate.BLACK;
+			tmp = currentPlayer;
+			currentPlayer = otherPlayer;
+			otherPlayer = tmp;
 		}
-		System.out.println("Score: B-" + scoreB + " W-" + scoreW);
-	}
-
-	private void playerMove(Cellstate player) {
-		// Player is choosing position for next move
-		Iterator<Position> itr1 = b.getAdjs().iterator();
-		Set<Position> flips;
-		Position p;
-		do {
-			p = itr1.next();
-			flips = helper.evaluateMove(p, player);
-		} while (flips.isEmpty() && itr1.hasNext());
-		// Placing and flipping
-		if (!flips.isEmpty()) {
-			System.out.println("Player " + player + " placed marker at " + p.toString());
-			b.placeMarker(p, player);
-			b.flipMarkers(flips, player);
-			calcScore(flips.size(),player);
-			
-		}
-	}
-	
-	private void calcScore(int nbrOfFlips, Cellstate player) {
-		if (player == Cellstate.BLACK) { 
-			scoreB += 1 + nbrOfFlips;
-			scoreW -= nbrOfFlips;
-		} else {
-			scoreW += 1 + nbrOfFlips;
-			scoreB -= nbrOfFlips;
-		}
+		sc.close();
 	}
 
 	public static void main(String[] args) throws InterruptedException {

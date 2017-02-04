@@ -1,0 +1,10 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public interface Player {
+	private Cellstate color;
+	private Board board;
+	private int score;
+
+}

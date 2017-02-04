@@ -2,21 +2,6 @@ package reversiassignment;
 
 import java.util.*;
 
-/**
- * -----------------------
- * |r-1,c-1|r-1,c|r-1,c+1| 
- * -----------------------
- * | r,c-1 | r,c | r,c+1 |
- * -----------------------
- * |r+1,c-1|r+1,c|r+1,c+1|
- * -----------------------
- * 
- * If position is r,c for addAdj and isLegalMove check surrounding tiles. These are
- *diagonal left upward, vertical upward, diagonal right upward
- *horizontal left, horizontal right, diagonal left downward
- *vertical downward, diagonal right downward
- * */
-
 public class Board {
 	public enum Cellstate {
 		BLACK, WHITE, EMPTY
@@ -86,10 +71,6 @@ public class Board {
 	
 	public Set<Position> getAdjs() {
 		return adj;
-	}
-	
-	public Cellstate[][] getBoard() {
-		return board;
 	}
 	
 	public String toString() {

@@ -2,7 +2,7 @@ package reversiassignment;
 
 import java.util.Arrays;
 
-public class Position implements Comparable<Position> {
+public class Position {
 	int r, c;
 
 	public Position(int r, int c) {
@@ -17,11 +17,6 @@ public class Position implements Comparable<Position> {
 			return p.r == r && p.c == c;
 		}
 		return false;
-	}
-
-	@Override
-	public int compareTo(Position p) {
-		return p.r - r + p.c - c;
 	}
 
 	@Override

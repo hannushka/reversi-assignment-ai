@@ -1,0 +1,12 @@
+package reversiassignment;
+
+import java.util.List;
+import java.util.Map;
+
+public class GameState {
+	private List<GameState> children;
+	private Map<GameState, Integer> score;
+	
+	public GameState() {
+	}
+}

@@ -1,0 +1,34 @@
+package reversiassignment;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+public class MiniMax {
+	private Board board;
+	private int score;
+	
+	public MiniMax(Board b, int s) {
+		board = b;
+		score = s;
+	}
+	
+	private List<GameState> getChildren() {
+		List<GameState> children = new LinkedList<GameState>();
+		Set<Position> adjs = board.getAdjs();
+		Board b;
+		for (Position p : adjs) {
+			b = new Board(board.getBoard(), board.getAdjs());
+		}
+		return children;
+	}
+	
+	public Position minDecision() {		
+		return null;
+	}
+	
+	public Position maxDecision() {
+		return null;
+	}
+	
+}

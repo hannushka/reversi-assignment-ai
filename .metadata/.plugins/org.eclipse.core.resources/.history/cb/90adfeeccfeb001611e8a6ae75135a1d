@@ -1,0 +1,13 @@
+package reversiassignment;
+
+public class MiniMax {
+
+	public Position minimax(Board board, int depth, int bestScore, Position bestPosition) {
+		//if game is over return score
+		//Get possible positions
+		//generate children
+		//recurse on children
+		
+		return null;
+	}
+}

@@ -1,0 +1,17 @@
+package reversiassignment;
+
+import java.util.List;
+
+import reversiassignment.Board.Cellstate;
+
+public class GameNode {
+	Board board;
+	Cellstate currPlayer;
+	List<GameNode> children;
+	
+	public GameNode(Board b, Cellstate currPlayer, List<GameNode> c) {
+		board = b;
+		this.currPlayer = currPlayer;
+		children.addAll(c);
+	}
+}

@@ -1,0 +1,24 @@
+package reversiassignment;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class GameState {
+	Board board;
+	int score;
+	List<GameState> children;
+	
+	public GameState(Board b, int s) {
+		board = b;
+		score = s;
+		children = new LinkedList<GameState>();
+	}
+	
+	public void addChild(GameState child) {
+		children.add(child);
+	}
+	
+	public boolean isGameOver() {
+		return board.gameOver();
+	}
+}

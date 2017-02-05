@@ -1,0 +1,54 @@
+package reversiassignment;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Cellstate currentPlayer;
+	private Helper helper;
+	private GameState root;
+
+	public MiniMax(Board b, Cellstate c, Helper h) {
+		currentPlayer = c;
+		helper = h;
+		root = new GameState(b, b.getScore(c), null);
+		generateChildren(root);
+	}
+	
+	private void generateChildren(GameState parent) {
+		Set<Position> adjs = b.getAdjs();
+		for (Position p : adjs)
+			traverseTree(parent, p);
+	}
+
+	private void traverseTree(GameState parent, Position p) {
+		Board newBoard = new Board(parent.board.getBoard(), parent.board.getAdjs());
+		newBoard.placeMarker(p, currentPlayer);
+		newBoard.flipMarkers(helper.evaluateMove(p, currentPlayer, newBoard), currentPlayer);
+		GameState child = new GameState(newBoard, newBoard.getScore(currentPlayer), p);
+		parent.addChild(child);
+		if (!child.isGameOver) {
+			generateChildren(child);
+		}
+	}
+
+	public Position maxDecision() {
+		/*
+		 * Board board = root.board; Iterator<Position> itr1 =
+		 * board.getAdjs().iterator(); Set<Position> flips; Position p; do { p =
+		 * itr1.next(); flips = helper.evaluateMove(p, currentPlayer, board); }
+		 * while (flips.isEmpty() && itr1.hasNext()); return p;
+		 */
+		int maxScore = 0;
+		Position p = root.children.get(1).move;
+		for (GameState child : root.children) {
+			if (child.score >= maxScore)
+				p = child.move;
+		}
+		return p;
+	}
+}

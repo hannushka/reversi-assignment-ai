@@ -1,0 +1,65 @@
+package reversiassignment;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Helper helper;
+	private Cellstate maximisingPlayer;
+	private Cellstate minimisingPlayer;
+
+	public MiniMax(Helper h, Cellstate m) {
+		helper = h;
+		maximisingPlayer = Cellstate.BLACK;
+		minimisingPlayer = Cellstate.WHITE;
+	}
+
+	private int getScore(Board board) {
+		int score = 0;
+		Cellstate[][] b = board.getBoard();
+		for (int i = 0; i < Board.SIZE; i++) {
+			for (int j = 0; j < Board.SIZE; i++) {
+				if (b[i][j] == maximisingPlayer)
+					score++;
+				else if (b[i][j] == minimisingPlayer)
+					score--;
+			}
+		}
+		return score;
+	}
+
+	private int minimax(Board board, Cellstate currPlayer) {
+		if (board.gameOver())
+			return getScore(board);
+		Map<Position, Integer> map = new HashMap<Position, Integer>();
+		Set<Position> pos = board.getAdjs();
+		for (Position p : pos) {
+			Board newBoard = new Board(board.getBoard(), board.getAdjs());
+			Set<Position> flips = helper.evaluateMove(p, currPlayer, newBoard);
+			if (!flips.isEmpty()) {
+				newBoard.placeMarker(p, currPlayer);
+				newBoard.flipMarkers(flips, currPlayer);
+				int score;
+				if (currPlayer == Cellstate.BLACK)
+					score = minimax(newBoard, Cellstate.WHITE);
+				else
+					score = minimax(newBoard, Cellstate.BLACK);	
+				map.put(p, score);
+			}	
+		}
+		Position maxPos;
+		int maxScore = Integer.MIN_VALUE;
+		for (Position p : map.keySet()) {
+			if (map.get(p) > maxScore) {
+				maxPos = p;
+				maxScore = map.get(p);
+			}
+		}
+		return 0;
+	}
+	
+
+}

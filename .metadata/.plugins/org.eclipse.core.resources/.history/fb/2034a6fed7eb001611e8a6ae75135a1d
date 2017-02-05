@@ -1,0 +1,6 @@
+package reversiassignment;
+
+public class GameNode {
+	Position p;
+	Board board;
+}

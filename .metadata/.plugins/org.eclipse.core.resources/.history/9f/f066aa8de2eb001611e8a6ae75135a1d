@@ -1,0 +1,11 @@
+package reversiassignment;
+
+public class GameNode {
+	boolean max; //BLACK PLAYER IS MAX
+	Board board;
+	
+	public GameNode(Board b, boolean m) {
+		max = m;
+		board = b;
+	}
+}

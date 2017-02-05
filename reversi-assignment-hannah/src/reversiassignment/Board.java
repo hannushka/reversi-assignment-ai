@@ -8,13 +8,14 @@ public class Board {
 	}
 	private Cellstate[][] board;
 	private Set<Position> adj;
+	static final int SIZE = 8;
 
 	public Board() {
-		board = new Cellstate[8][8];
+		board = new Cellstate[SIZE][SIZE];
 		adj = new HashSet<Position>();
 		//initiating board
-		for (int i = 0 ; i < 8 ; i++) {
-			for (int j = 0 ; j < 8 ; j++) {
+		for (int i = 0 ; i < SIZE ; i++) {
+			for (int j = 0 ; j < SIZE ; j++) {
 				board[i][j] = Cellstate.EMPTY;
 			}
 		}
@@ -27,11 +28,27 @@ public class Board {
 		addAdj(3,4);
 		addAdj(4,3);
 		addAdj(4,4);
+//		board[1][1] = Cellstate.WHITE;
+//		board[1][2] = Cellstate.BLACK;
+//		board[2][1] = Cellstate.BLACK;
+//		board[2][2] = Cellstate.WHITE;
+//		addAdj(1,1);
+//		addAdj(1,2);
+//		addAdj(2,1);
+//		addAdj(2,2);
 	}
 	
 	public Board(Cellstate[][] board, Set<Position> adj) {
-		this.board = board;
-		this.adj = adj;
+		this.board = new Cellstate[SIZE][SIZE];
+		for (int i = 0 ; i < SIZE ; i++) {
+			for (int j = 0 ; j < SIZE ; j++) {
+				this.board[i][j] = board[i][j];
+			}
+		}
+		this.adj = new HashSet<Position>();
+		for (Position p : adj) {
+			this.adj.add(p);
+		}
 	}
 
 	public void placeMarker(Position p, Cellstate color) {
@@ -62,7 +79,7 @@ public class Board {
 	}
 
 	public boolean isAllowedCoords(int r, int c) {
-		return r < 8 && r >= 0 && c < 8 && c >= 0;
+		return r < SIZE && r >= 0 && c < SIZE && c >= 0;
 	}
 	
 	public Cellstate getCellstate(int r, int c) {
@@ -71,6 +88,10 @@ public class Board {
 	
 	public Set<Position> getAdjs() {
 		return adj;
+	}
+	
+	public Cellstate[][] getBoard() {
+		return board;
 	}
 	
 	public boolean isMoveAllowed(Position p) {
@@ -83,12 +104,27 @@ public class Board {
 		return new Position(r,c);
 	}
 	
+	//TODO
+	public void printScore() {
+		int scoreW = 0;
+		int scoreB = 0;
+		for (int i = 0 ; i < SIZE ; i++) {
+			for (int j = 0 ; j < SIZE ; j++) {
+				if (board[i][j] == Cellstate.WHITE)
+					scoreW++;
+				else if(board[i][j] == Cellstate.BLACK)
+					scoreB++;
+			}
+		}
+		System.out.println("Current score: B-" + scoreB + " W-" + scoreW);
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("  a  b  c  d  e  f  g  h\n");
-		for (int i = 0 ; i < 8 ; i++) {
+		for (int i = 0 ; i < SIZE ; i++) {
 			sb.append(i+1);
-			for (int j = 0 ; j < 8 ; j++) {
+			for (int j = 0 ; j < SIZE ; j++) {
 				switch (board[i][j]) {
 				case EMPTY:
 					sb.append("|_|");

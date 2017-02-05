@@ -1,0 +1,36 @@
+package reversiassignment;
+
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class PlayerAI implements Player{
+	private Cellstate color;
+	private Board board;
+	private Helper helper;
+	
+	public PlayerAI(Cellstate c, Board b, Helper h) {
+		this.color = c;
+		board = b;
+		helper = h;
+	}
+	
+	public void playerMove() {
+		MiniMax mm = new MiniMax(helper);
+		GameNode n = mm.maxDecision(new GameNode(board, null, color));
+		Position p = n.pos;
+		Set<Position> flips = helper.evaluateMove(p, color, board);
+		// Placing and flipping
+		if (!flips.isEmpty()) {
+			System.out.println("Player " + color + " placed marker at " + p.toString());
+			board.placeMarker(p, color);
+			board.flipMarkers(flips, color);
+		}
+	}
+	
+	
+	public Cellstate getColor() {
+		return color;
+	}
+
+}

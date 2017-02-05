@@ -1,0 +1,10 @@
+package reversiassignment;
+
+public class MiniMax {
+	private GameState root;
+	
+	public MiniMax(GameState r) {
+		root = r;
+	}
+	
+}

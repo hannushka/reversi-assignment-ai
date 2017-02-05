@@ -1,0 +1,13 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public class GameNode {
+	Board board;
+	Cellstate playerTurn;
+	
+	public GameNode(Board b, Cellstate playerTurn) {
+		board = b;
+		this.playerTurn = playerTurn;
+	}
+}

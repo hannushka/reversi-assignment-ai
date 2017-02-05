@@ -1,0 +1,59 @@
+package reversiassignment;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Helper helper;
+
+	public MiniMax(Helper h) {
+		helper = h;
+	}
+
+	private int getScore(Board board) {
+		int score = 0;
+		Cellstate[][] b = board.getBoard();
+		for (int i = 0; i < Board.SIZE; i++) {
+			for (int j = 0; j < Board.SIZE; i++) {
+				if (b[i][j] == Cellstate.BLACK)
+					score++;
+				else if (b[i][j] == Cellstate.WHITE)
+					score--;
+			}
+		}
+		return score;
+	}
+
+	public int maxDecision(GameNode node) {
+		if (node.board.gameOver()) 
+			return getScore(node.board);
+		Map<Position, Integer> scores = new HashMap<Position, Integer>();
+		Set<Position> possibleMoves = node.board.getAdjs();
+		for (Position p2 : possibleMoves) {
+			Set<Position> flips = helper.evaluateMove(p2, color, board);
+			if (!flips.isEmpty()) {
+				Board newBoard = new Board(board.getBoard(), possibleMoves);
+				newBoard.placeMarker(p2, color);
+				newBoard.flipMarkers(flips, color);
+				scores.put(p2,mm.maxDecision(new GameNode(newBoard, p2)));
+			}
+		}
+		int maxValue = Integer.MIN_VALUE;
+		Position p = null;
+		int tmp;
+		for (Position p2 : scores.keySet()) {
+			tmp = scores.get(p2);
+			if (tmp > maxValue) {
+				maxValue = tmp;
+				p = p2;
+			}
+		}
+	}
+
+
+}

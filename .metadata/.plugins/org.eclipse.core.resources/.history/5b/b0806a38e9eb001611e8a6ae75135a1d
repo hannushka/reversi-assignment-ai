@@ -1,0 +1,64 @@
+package reversiassignment;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class PlayerAI implements Player {
+	private Cellstate color;
+	private Board board;
+	private Helper helper;
+	Map<Position, Integer> scores;
+
+	public PlayerAI(Cellstate c, Board b, Helper h) {
+		this.color = c;
+		board = b;
+		helper = h;
+	}
+	
+	private int calcScore(Cellstate[][] board) {
+		int score = 0;
+		for (int i = 0 ; i < Board.SIZE ; i++) {
+			for (int j = 0 ; j < Board.SIZE ; j++) {
+				if (board[i][j] == color)
+					score++;
+				else if (board[i][j] != Cellstate.EMPTY)
+					score--;
+			}
+		}
+		return score;
+	}
+	
+	private int miniMax(GameNode node) {
+		if (board.gameOver())
+			return calcScore(board.getBoard());
+		Set<Position> possibleMoves = board.getAdjs();
+		Set<Position> flips;
+		for (Position p : possibleMoves) {
+			flips = helper.evaluateMove(p, node.playerTurn, node.board);
+			if (!flips.isEmpty()) {
+				
+			}
+		}
+	}
+
+	public void playerMove() {
+		scores = new HashMap<Position, Integer>();
+		Position p = null;
+		
+		Set<Position> flips = helper.evaluateMove(p, color, board);
+		// Placing and flipping
+		if (!flips.isEmpty()) {
+			System.out.println("Player " + color + " placed marker at " + p.toString());
+			board.placeMarker(p, color);
+			board.flipMarkers(flips, color);
+		}
+	}
+
+	public Cellstate getColor() {
+		return color;
+	}
+
+}

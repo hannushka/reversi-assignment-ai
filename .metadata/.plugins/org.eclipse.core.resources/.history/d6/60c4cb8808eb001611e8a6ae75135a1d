@@ -1,0 +1,10 @@
+package reversiassignment;
+
+public class MiniMax {
+	private Board root;
+	
+	public MiniMax(Board r) {
+		root = r;
+	}
+	
+}

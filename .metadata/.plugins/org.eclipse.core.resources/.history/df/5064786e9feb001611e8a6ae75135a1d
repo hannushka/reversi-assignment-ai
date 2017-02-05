@@ -1,0 +1,18 @@
+package reversiassignment;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+public class GameState {
+	Board board;
+	int score;
+	List<GameState> children;
+	
+	public GameState(Board b, int s) {
+		board = b;
+		score = s;
+		children = new LinkedList<GameState>();
+	}
+}

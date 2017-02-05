@@ -1,0 +1,70 @@
+package reversiassignment;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Cellstate currentPlayer;
+	private Helper helper;
+	private GameState root;
+
+	public MiniMax(Board b, Cellstate c, Helper h) {
+		currentPlayer = c;
+		helper = h;
+		root = new GameState(b, b.getScore(c), null);
+		generateChildren(parent);
+	}
+
+	private void generateChildren(GameState parent) {
+		Set<Position> adjs = parent.board.getAdjs();
+		for (Position p : adjs) {
+			System.out.println("Generating children for " + p.toString());
+			Board newBoard = new Board(parent.board.getBoard(), parent.board.getAdjs());
+			newBoard.placeMarker(p, currentPlayer);
+			newBoard.flipMarkers(helper.evaluateMove(p, currentPlayer, newBoard), currentPlayer);
+			GameState child = new GameState(newBoard, newBoard.getScore(currentPlayer), p);
+			parent.addChild(child);
+		}
+	}
+
+	private int alphabeta(GameState node, int depth, int alpha, int beta, boolean maximizing) {
+		if (depth == 0 || node.board.gameOver())
+			return node.score;
+		int bestValue;
+		if (maximizing) {
+			bestValue = alpha;
+			for (GameState child : node.children) {
+				int childValue = alphabeta(child, depth-1, alpha, beta, false);
+				bestValue = Math.max(bestValue, childValue);
+				if (beta <= alpha)
+					break;
+			}
+		} else {
+			bestValue = beta;
+			for (GameState child : node.children) {
+				int childValue = alphabeta(child, depth-1, alpha, beta, false);
+				bestValue = Math.min(bestValue, childValue);
+				if (bestValue <= alpha)
+					break;
+			}
+		}
+		return bestValue;
+	}
+
+	public Position maxDecision() {
+
+		Board board = root.board;
+		Iterator<Position> itr1 = board.getAdjs().iterator();
+		Set<Position> flips;
+		Position p;
+		do {
+			p = itr1.next();
+			flips = helper.evaluateMove(p, currentPlayer, board);
+		} while (flips.isEmpty() && itr1.hasNext());
+		return p;
+	}
+}

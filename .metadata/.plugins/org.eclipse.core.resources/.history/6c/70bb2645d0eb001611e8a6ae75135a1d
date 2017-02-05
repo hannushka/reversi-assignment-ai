@@ -1,0 +1,22 @@
+package reversiassignment;
+
+import java.util.Set;
+
+public class MiniMax {
+
+	public Position minimax(Board board, int depth, int bestScore, Position bestPosition) {
+		//if game is over return score
+		if (board.gameOver() || depth == 0)
+			return bestPosition;
+		//Get possible positions
+		Set<Position> pos = board.getAdjs();
+		//generate children
+		//recurse on children
+		for (Position p : pos) {
+			Board newBoard = new Board(board.getBoard(), pos);
+			newBoard.placeMarker(p, color);
+		}
+		//if returned value is better than score replace bestscore and best position
+		return null;
+	}
+}

@@ -1,0 +1,51 @@
+package reversiassignment;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Cellstate currentPlayer;
+	private Helper helper;
+	private GameState root;
+	
+	public MiniMax(Board b, Cellstate c, Helper h) {
+		currentPlayer = c;
+		helper = h;
+		root = new GameState(b, b.getScore(c));
+		generateChildren(b);
+	}
+	
+	private void generateChildren(Board board, GameState parent) {
+		Set<Position> adjs = board.getAdjs();
+		Board b;
+		GameState child;
+		for (Position p : adjs) {
+			b = new Board(board.getBoard(), board.getAdjs());
+			b.placeMarker(p, currentPlayer);
+			board.flipMarkers(helper.evaluateMove(p, currentPlayer, board), currentPlayer);
+			child = new GameState(b, b.getScore(currentPlayer));
+			parent.addChild(child);
+		}
+	}	
+	
+	public Position minDecision() {	
+		Board board = root.board;
+		Iterator<Position> itr1 = board.getAdjs().iterator();
+		Set<Position> flips;
+		Position p;
+		do {
+			p = itr1.next();
+			flips = helper.evaluateMove(p, currentPlayer, board);
+		} while (flips.isEmpty() && itr1.hasNext());
+		return p;
+	}
+	
+	public Position maxDecision() {
+		return null;
+	}
+	
+}

@@ -13,41 +13,25 @@ public class Game {
 		board = new Board();
 		sc = new Scanner(System.in);
 	}
-	
-	private void setUp() {
-		String input;
-		do {
-			System.out.println("Which color would you like to play? 1 = black, 2 = white");
-			input = sc.next();
-		} while (!input.matches("[1-2]"));
-		Helper h = new Helper();
-		int choice = Integer.parseInt(input);
-		if (choice == 1) {
-			player1 = new PlayerAI(Cellstate.WHITE, board, 2, h);
-			player2 = new PlayerHuman(sc, Cellstate.BLACK, board, 2, h);
-		} else {
-			player1 = new PlayerHuman(sc, Cellstate.WHITE, board, 2, h);
-			player2 = new PlayerAI(Cellstate.BLACK, board, 2, h);
-		}
-		System.out.print(board.toString()); //Print board
-	}
 
 	public void play() {
-		setUp();
-		Player currentPlayer = player1;
-		Player otherPlayer = player2;
+		//player1 = new PlayerHuman(sc, Cellstate.WHITE, board, new Helper());
+		player1 = new PlayerAI(Cellstate.WHITE, board, new Helper());
+		player2 = new PlayerAI(Cellstate.BLACK, board, new Helper());
+		Player currentPlayer = player2;
+		Player otherPlayer = player1;
 		Player tmp;
 		while (!board.gameOver()) {
-			int flips = currentPlayer.playerMove(); //Player makes move
-			currentPlayer.modifyScore(flips+1);
-			otherPlayer.modifyScore(-flips);
-			System.out.print(board.toString()); //Print new board
-			System.out.println("Score: W-" + player1.getScore() + " B-" + player2.getScore());
+			System.out.print(board.toString());
+			board.printScore();
+			currentPlayer.playerMove();
 			//Next player
 			tmp = currentPlayer;
 			currentPlayer = otherPlayer;
 			otherPlayer = tmp;
 		}
+		System.out.print(board.toString());
+		board.printScore();
 		sc.close();
 	}
 

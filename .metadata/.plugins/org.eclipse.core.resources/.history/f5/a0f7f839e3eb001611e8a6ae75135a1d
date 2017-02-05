@@ -1,0 +1,35 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Helper helper;
+	private Cellstate max;
+
+	public MiniMax(Helper h) {
+		helper = h;
+		max = Cellstate.BLACK;
+	}
+	
+	private int evaluateScore(Cellstate[][] board, Cellstate player) {
+		int score = 0;
+		for (int i = 0 ; i < Board.SIZE ; i++) {
+			for (int j = 0 ; j < Board.SIZE ; j++) {
+				if (board[i][j] == max)
+					score++;
+				else if(board[i][j] == Cellstate.EMPTY)
+					break;
+				else
+					score--;
+			}
+		}
+		return score;
+	}
+	
+	public Position miniMax(GameNode node) {
+		if
+		return null;
+	}
+
+
+}

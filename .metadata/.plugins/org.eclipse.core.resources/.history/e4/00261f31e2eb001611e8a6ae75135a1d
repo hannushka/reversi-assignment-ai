@@ -1,0 +1,11 @@
+package reversiassignment;
+
+public class GameNode {
+	Position pos;
+	Board board;
+	
+	public GameNode(Board b, Position p) {
+		pos = p;
+		board = b;
+	}
+}

@@ -1,0 +1,58 @@
+package reversiassignment;
+
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Helper helper;
+
+	public MiniMax(Helper h) {
+		helper = h;
+	}
+	
+	private int evaluateScore(Cellstate[][] board, Cellstate player) {
+		int score = 0;
+		for (int i = 0 ; i < Board.SIZE ; i++) {
+			for (int j = 0 ; j < Board.SIZE ; j++) {
+				if (board[i][j] == player)
+					score++;
+				else if(board[i][j] == Cellstate.EMPTY)
+					break;
+				else
+					score--;
+			}
+		}
+		return score;
+	}
+	
+	public Position miniMax(Board board, Cellstate rootPlayer) {
+		Set<Position> adjs = board.getAdjs();
+		Set<Position> flips;
+		int maxValue = Integer.MIN_VALUE;
+		Position p = null;
+		for (Position p : adjs) {
+			Board newBoard = new Board(board.getBoard(), parent.board.getAdjs());
+			flips = helper.evaluateMove(p, rootPlayer, newBoard);
+			if (!flips.isEmpty()) {
+				newBoard.placeMarker(p, rootPlayer);
+				newBoard.flipMarkers(flips, rootPlayer);
+				Cellstate nextPlayer;
+				if (rootPlayer == Cellstate.BLACK)
+					nextPlayer =  Cellstate.WHITE;
+				else
+					nextPlayer =  Cellstate.BLACK;
+				int score = maxDecision(new GameNode(newBoard, nextPlayer), rootPlayer);
+			}
+		}
+		return p;
+	}
+	
+	public int maxDecision(GameNode node, Cellstate rootPlayer) {
+		Board b = node.board;
+		if (b.gameOver()) 
+			return evaluateScore(b.getBoard(), rootPlayer);
+	}
+
+
+}

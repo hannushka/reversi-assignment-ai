@@ -1,0 +1,10 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+
+	public Position minimax(Cellstate[][] board, int depth) {
+		
+	}
+}

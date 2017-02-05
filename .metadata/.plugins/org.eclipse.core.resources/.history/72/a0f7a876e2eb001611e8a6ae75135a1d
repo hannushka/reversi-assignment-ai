@@ -1,0 +1,23 @@
+package reversiassignment;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class MiniMax {
+	private Helper helper;
+
+	public MiniMax(Helper h) {
+		helper = h;
+	}
+	
+	public Position miniMax(GameNode node) {
+		return null;
+	}
+
+
+}

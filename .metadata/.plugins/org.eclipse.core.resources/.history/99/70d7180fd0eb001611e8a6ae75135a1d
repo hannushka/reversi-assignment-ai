@@ -1,0 +1,15 @@
+package reversiassignment;
+
+public class MiniMax {
+
+	public Position minimax(Board board, int depth, int bestScore, Position bestPosition) {
+		//if game is over return score
+		if (board.gameOver() || depth == 0)
+			return bestPosition;
+		//Get possible positions
+		//generate children
+		//recurse on children
+		//if returned value is better than bescore replace bestscore and best position
+		return null;
+	}
+}

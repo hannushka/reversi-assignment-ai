@@ -1,0 +1,6 @@
+package reversi;
+
+public interface Player {
+	public int playerMove();
+	public Cellstate getColor();
+}

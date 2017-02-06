@@ -2,20 +2,23 @@ package reversi;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import reversi.Board.Cellstate;
 
 public class GameNode {
-	Board board;
+	Cellstate[][] board;
+	Set<Position> adjs;
 	Cellstate playerTurn;
 	Map<Position, Integer> scores;
 	
-	public GameNode(Board b, Cellstate playerTurn) {
-		board = b;
+	public GameNode(Cellstate[][] board, Set<Position> adjs, Cellstate playerTurn) {
+		this.board = board;
+		this.adjs = adjs;
 		this.playerTurn = playerTurn;
 		scores = new HashMap<Position, Integer>();
 	}
-	
+
 	public void addScore(Position p, int val) {
 		scores.put(p, val);
 	}

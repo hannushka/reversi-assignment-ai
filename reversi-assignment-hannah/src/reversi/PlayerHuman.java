@@ -30,6 +30,8 @@ public class PlayerHuman implements Player {
 				board.placeMarker(p, color);
 				board.flipMarkers(flips, color);
 				return flips.size()+1;
+			} else {
+				System.out.println("Move not possible");
 			}
 		} else {
 			System.out.println("No move possible for player " + color);
@@ -42,7 +44,7 @@ public class PlayerHuman implements Player {
 		String input = sc.next();
 		System.out.println(input);
 		Position p = board.getPositionFromCoords(input);
-		while (!input.matches("[1-8][a-h]") || !board.isMoveAllowed(p)) {
+		while (!input.matches("[1-8][a-h]") || !board.isMoveAllowed(p) && input.length() == 0) {
 			System.out.println("That move is not allowed. Try again!");
 			input = sc.next();
 			p = board.getPositionFromCoords(input);
@@ -60,5 +62,9 @@ public class PlayerHuman implements Player {
 				return true;
 		}
 		return false;
+	}
+
+	public Cellstate getColor() {
+		return color;
 	}
 }

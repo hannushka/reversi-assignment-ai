@@ -47,22 +47,13 @@ public class Helper {
 
 	private Set<Position> stepDirection(int r, int c, int dr, int dc, Cellstate player, Set<Position> flips,
 			Board board) {
-
-		boolean done = false;
-		while (!done) {
-			flips.add(new Position(r, c));
-			r = r + dr;
-			c = c + dc;
-			if (!board.isAllowedCoords(r, c) || board.getCellstate(r, c) == Cellstate.EMPTY) {
-				flips = new HashSet<Position>();
-				done = true;
-			} else if (board.getCellstate(r, c) == player) {
-				done = true;
-			}
-		}
-
-		return flips;
-
+		flips.add(new Position(r, c));
+		r = r + dr;
+		c = c + dc;
+		if (!board.isAllowedCoords(r, c) || board.getCellstate(r, c) == Cellstate.EMPTY)
+			return new HashSet<Position>();
+		else if (board.getCellstate(r, c) == player)
+			return flips;
+		return stepDirection(r, c, dr, dc, player, flips, board);
 	}
-
 }

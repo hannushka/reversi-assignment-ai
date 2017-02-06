@@ -1,0 +1,8 @@
+package reversiassignment;
+
+import reversiassignment.Board.Cellstate;
+
+public interface Player {
+	public int playerMove();
+	public int getScore();
+}

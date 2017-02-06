@@ -1,0 +1,8 @@
+package reversiassignment;
+
+public interface Player {
+	public int playerMove();
+	public int getScore();
+	public void modifyScore(int points);
+	public Cellstate getColor();
+}

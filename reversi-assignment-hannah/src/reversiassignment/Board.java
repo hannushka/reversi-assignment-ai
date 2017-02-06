@@ -104,21 +104,6 @@ public class Board {
 		return new Position(r,c);
 	}
 	
-	//TODO
-	public void printScore() {
-		int scoreW = 0;
-		int scoreB = 0;
-		for (int i = 0 ; i < SIZE ; i++) {
-			for (int j = 0 ; j < SIZE ; j++) {
-				if (board[i][j] == Cellstate.WHITE)
-					scoreW++;
-				else if(board[i][j] == Cellstate.BLACK)
-					scoreB++;
-			}
-		}
-		System.out.println("Current score: B-" + scoreB + " W-" + scoreW);
-	}
-	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("  a  b  c  d  e  f  g  h\n");

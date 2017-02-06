@@ -16,6 +16,10 @@ public class GameNode {
 		scores = new HashMap<Position, Integer>();
 	}
 	
+	public void addScore(Position p, int val) {
+		scores.put(p, val);
+	}
+	
 	public int getMaxValue() {
 		int max = Integer.MIN_VALUE;
 		int tmp;

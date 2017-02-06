@@ -8,10 +8,13 @@ public class Game {
 	private Board board;
 	private Scanner sc;
 	private Player player1, player2;
+	private int scorePlayer1, scorePlayer2;
 
 	public Game() {
 		board = new Board();
 		sc = new Scanner(System.in);
+		scorePlayer1 = 2;
+		scorePlayer2 = 2;
 	}
 
 	public void play() {
@@ -21,17 +24,27 @@ public class Game {
 		Player currentPlayer = player2;
 		Player otherPlayer = player1;
 		Player tmp;
+		int points;
 		while (!board.gameOver()) {
+			//Print board and score
 			System.out.print(board.toString());
-			board.printScore();
-			currentPlayer.playerMove();
+			System.out.println("Current score: W-" + scorePlayer1 + " B-" + scorePlayer2);
+			//Current player makes move
+			points = currentPlayer.playerMove();
+			if (currentPlayer == player1 && points != 0) {
+				scorePlayer1 += points;
+				scorePlayer2 -= points-1;
+			} else if (currentPlayer == player2 && points != 0) {
+				scorePlayer1 -= points-1;
+				scorePlayer2 += points;
+			}
 			//Next player
 			tmp = currentPlayer;
 			currentPlayer = otherPlayer;
 			otherPlayer = tmp;
 		}
 		System.out.print(board.toString());
-		board.printScore();
+		System.out.println("Current score: W-" + scorePlayer1 + " B-" + scorePlayer2);
 		sc.close();
 	}
 

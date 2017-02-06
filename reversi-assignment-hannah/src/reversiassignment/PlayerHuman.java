@@ -1,6 +1,5 @@
 package reversiassignment;
 
-import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -19,17 +18,23 @@ public class PlayerHuman implements Player {
 		helper = h;
 	}
 
-	public void playerMove() {
-		Set<Position> adjs = board.getAdjs();
-		System.out.println("Your turn " + "player " + color + "! Where would you like to place a marker?");
-		Position p = getMoveFromPlayer(adjs);
-		Set<Position> flips = helper.evaluateMove(p, color, board);
-		// Placing and flipping
-		if (!flips.isEmpty()) {
-			System.out.println("Player " + color + " placed marker at " + p.toString());
-			board.placeMarker(p, color);
-			board.flipMarkers(flips, color);
+	public int playerMove() {
+		if (isMovePossible()) {
+			Set<Position> adjs = board.getAdjs();
+			System.out.println("Your turn " + "player " + color + "! Where would you like to place a marker?");
+			Position p = getMoveFromPlayer(adjs);
+			Set<Position> flips = helper.evaluateMove(p, color, board);
+			// Placing and flipping
+			if (!flips.isEmpty()) {
+				System.out.println("Player " + color + " placed marker at " + p.toString());
+				board.placeMarker(p, color);
+				board.flipMarkers(flips, color);
+				return flips.size()+1;
+			}
+		} else {
+			System.out.println("No move possible for player " + color);
 		}
+		return 0;
 	}
 
 	private Position getMoveFromPlayer(Set<Position> adjs) {
@@ -46,7 +51,14 @@ public class PlayerHuman implements Player {
 		return p;
 	}
 
-	public Cellstate getColor() {
-		return color;
+	private boolean isMovePossible() {
+		Set<Position> possibleMoves = board.getAdjs();
+		Set<Position> flips;
+		for (Position p : possibleMoves) {
+			flips = helper.evaluateMove(p, color, board);
+			if (flips.size() > 0)
+				return true;
+		}
+		return false;
 	}
 }

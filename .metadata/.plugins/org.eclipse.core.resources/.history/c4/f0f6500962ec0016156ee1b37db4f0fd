@@ -1,0 +1,6 @@
+package reversiassignment;
+
+public interface Player {
+	public void playerMove();
+	public int getScore();
+}

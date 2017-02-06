@@ -1,0 +1,84 @@
+package reversiassignment;
+
+import java.util.Set;
+
+import reversiassignment.Board.Cellstate;
+
+public class PlayerAI implements Player {
+	private Cellstate color;
+	private Cellstate opponent;
+	private Board board;
+	private Helper helper;
+	private int score;
+
+	public PlayerAI(Cellstate c, Board b, Helper h) {
+		this.color = c;
+		if (c == Cellstate.WHITE)
+			opponent = Cellstate.BLACK;
+		else
+			opponent = Cellstate.WHITE;
+		board = b;
+		helper = h;
+		score = 2;
+	}
+	
+	public void playerMove() {
+		GameNode root = new GameNode(board, color);
+		miniMax(root, 7);
+		Position p = root.getMaxPos();
+		Set<Position> flips = helper.evaluateMove(p, color, board);
+		// Placing and flipping
+		if (!flips.isEmpty()) {
+			System.out.println("Player " + color + " placed marker at " + p.toString());
+			board.placeMarker(p, color);
+			board.flipMarkers(flips, color);
+		} else {
+			System.out.println("No move possible for player " + color);
+		}
+	}
+
+	private int miniMax(GameNode node, int depth, int alpha, int beta) {
+		Board nodeBoard = node.board;
+		if (nodeBoard.gameOver() || depth == 0)
+			return calcScoreMinMax(nodeBoard.getBoard());
+		Set<Position> possibleMoves = nodeBoard.getAdjs();
+		Set<Position> flips;
+		for (Position p : possibleMoves) {
+			flips = helper.evaluateMove(p, node.playerTurn, node.board);
+			if (!flips.isEmpty()) { //if legal move for player
+				Board newBoard = new Board(nodeBoard.getBoard(), possibleMoves);
+				newBoard.placeMarker(p, node.playerTurn);
+				newBoard.flipMarkers(flips, node.playerTurn);
+				Cellstate playerTurn;
+				if (node.playerTurn == color) {
+					playerTurn = opponent;
+				} else {
+					playerTurn = color;
+				}
+				int score = miniMax(new GameNode(newBoard, playerTurn), depth-1);
+				node.addScore(p, score);
+			}
+		}
+		if (node.playerTurn == color)
+			return node.getMaxValue();
+		else 
+			return node.getMinValue();
+	}
+	
+	private int calcScoreMinMax(Cellstate[][] board) {
+		int score = 0;
+		for (int i = 0 ; i < Board.SIZE ; i++) {
+			for (int j = 0 ; j < Board.SIZE ; j++) {
+				if (board[i][j] == color)
+					score++;
+				else if (board[i][j] != Cellstate.EMPTY)
+					score--;
+			}
+		}
+		return score;
+	}
+
+	public int getScore() {
+		return score;
+	}
+}

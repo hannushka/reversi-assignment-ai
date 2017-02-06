@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;reversiassignment.PlayerAI.calcScore(...)&apos; to &apos;calcScoreMinMax&apos;&#x0D;&#x0A;- Original project: &apos;reversi-assignment-hannah&apos;&#x0D;&#x0A;- Original element: &apos;reversiassignment.PlayerAI.calcScore(...)&apos;&#x0D;&#x0A;- Renamed element: &apos;reversiassignment.PlayerAI.calcScoreMinMax(...)&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;calcScore&apos;" flags="589826" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;reversiassignment{PlayerAI.java[PlayerAI~calcScore~\[\[QCellstate;" name="calcScoreMinMax" references="true" stamp="1486377221060" version="1.0"/>
+</session>

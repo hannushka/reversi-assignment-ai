@@ -14,7 +14,7 @@ public class Position {
 	public boolean equals(Object other){
 		if (other instanceof Position) {
 			Position p = (Position) other;
-			return p.r==r&&p.c==c;
+			return p.r==r && p.c==c;
 		}
 		return false;
 	}

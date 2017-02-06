@@ -15,4 +15,41 @@ public class GameNode {
 		this.playerTurn = playerTurn;
 		scores = new HashMap<Position, Integer>();
 	}
+	
+	public int getMaxValue() {
+		int max = Integer.MIN_VALUE;
+		int tmp;
+		for (Position p : scores.keySet()) {
+			tmp = scores.get(p);
+			if (tmp > max) 
+				max = tmp;
+		}
+		return max;
+	}
+	
+	
+	public int getMinValue() {
+		int min = Integer.MAX_VALUE;
+		int tmp;
+		for (Position p : scores.keySet()) {
+			tmp = scores.get(p);
+			if (tmp < min) 
+				min = tmp;
+		}
+		return min;
+	}
+	
+	public Position getMaxPos() {
+		Position p = null;
+		int max = Integer.MIN_VALUE;
+		int tmp;
+		for (Position p2 : scores.keySet()) {
+			tmp = scores.get(p2);
+			if (tmp >= max) {
+				max = tmp;
+				p = p2;
+			}
+		}
+		return p;
+	}
 }

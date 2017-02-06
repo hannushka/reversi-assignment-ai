@@ -49,47 +49,22 @@ public class PlayerAI implements Player {
 			}
 		}
 		if (node.playerTurn == color) {
-			int max = Integer.MIN_VALUE;
-			int tmp;
-			for (Position p : node.scores.keySet()) {
-				tmp = node.scores.get(p);
-				if (tmp > max) 
-					max = tmp;
-			}
-			return max;
+			return node.getMaxValue();
 		} else {
-			int min = Integer.MAX_VALUE;
-			int tmp;
-			for (Position p : node.scores.keySet()) {
-				tmp = node.scores.get(p);
-				if (tmp < min) 
-					min = tmp;
-			}
-			return min;
+			return node.getMinValue();
 		}
 	}
 
 	public void playerMove() {
 		GameNode root = new GameNode(board, color);
 		miniMax(root, 7);
-		Position p = null;
-		int max = Integer.MIN_VALUE;
-		int tmp;
-		for (Position p2 : root.scores.keySet()) {
-			tmp = root.scores.get(p2);
-			if (tmp >= max) {
-				max = tmp;
-				p = p2;
-			}
-		}
-		if (root.scores.keySet().size() > 0) {
-			Set<Position> flips = helper.evaluateMove(p, color, board);
-			// Placing and flipping
-			if (!flips.isEmpty()) {
-				System.out.println("Player " + color + " placed marker at " + p.toString());
-				board.placeMarker(p, color);
-				board.flipMarkers(flips, color);
-			}
+		Position p = root.getMaxPos();
+		Set<Position> flips = helper.evaluateMove(p, color, board);
+		// Placing and flipping
+		if (!flips.isEmpty()) {
+			System.out.println("Player " + color + " placed marker at " + p.toString());
+			board.placeMarker(p, color);
+			board.flipMarkers(flips, color);
 		}
 	}
 

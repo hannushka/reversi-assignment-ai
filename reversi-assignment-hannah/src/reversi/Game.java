@@ -14,8 +14,8 @@ public class Game {
 
 	/**
 	 * 
-	 * @param player1type - 0 if AI player
-	 * @param player2type - 0 if AI player
+	 * @param player1type - 0 if AI player, otherwise human
+	 * @param player2type - 0 if AI player, otherwise human
 	 */
 	public Game(int player1type, int player2type) {
 		board = new Board();

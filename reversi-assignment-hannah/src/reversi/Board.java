@@ -45,14 +45,14 @@ public class Board {
 	}
 
 	public void placeMarker(Position p, Cellstate color) {
-		board[p.r][p.c] = color;
-		addAdj(p.r,p.c);
+		board[p.getRow()][p.getColumn()] = color;
+		addAdj(p.getRow(),p.getColumn());
 		adj.remove(p);
 	}
 	
 	public void flipMarkers(Set<Position> ps, Cellstate player) {
 		for (Position p : ps)
-			board[p.r][p.c] = player;
+			board[p.getRow()][p.getColumn()] = player;
 	}
 
 	private void addAdj(int r, int c) {

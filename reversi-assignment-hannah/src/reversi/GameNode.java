@@ -7,10 +7,10 @@ import java.util.Set;
 import reversi.Board.Cellstate;
 
 public class GameNode {
-	Cellstate[][] board;
-	Set<Position> adjs;
-	Cellstate playerTurn;
-	Map<Position, Integer> scores;
+	private Cellstate[][] board;
+	private Set<Position> adjs;
+	private Cellstate playerTurn;
+	private Map<Position, Integer> scores;
 	
 	public GameNode(Cellstate[][] board, Set<Position> adjs, Cellstate playerTurn) {
 		this.board = board;
@@ -21,6 +21,18 @@ public class GameNode {
 
 	public void addScore(Position p, int val) {
 		scores.put(p, val);
+	}
+	
+	public Cellstate[][] getBoard(){
+		return board;
+	}
+	
+	public Set<Position> getAdjecent(){
+		return adjs;
+	}
+	
+	public Cellstate getTurn(){
+		return playerTurn;
 	}
 	
 	public int getMaxValue() {

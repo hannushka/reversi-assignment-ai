@@ -35,8 +35,8 @@ public class Helper {
 
 	private Set<Position> checkDirectionOfPos(Position pos, int dr, int dc, Cellstate player, Cellstate opponent,
 			Board board) {
-		int r = pos.r + dr;
-		int c = pos.c + dc;
+		int r = pos.getRow() + dr;
+		int c = pos.getColumn() + dc;
 		Set<Position> flips = new HashSet<Position>();
 		if (board.isAllowedCoords(r, c) && board.getCellstate(r, c) == opponent) {
 			return stepDirection(r, c, dr, dc, player, flips, board);

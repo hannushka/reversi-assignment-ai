@@ -47,14 +47,14 @@ public class PlayerAI implements Player {
 	}
 
 	private int miniMax(GameNode node, long stopTime, int alpha, int beta) {
-		Board nodeBoard = new Board(node.board, node.adjs);
+		Board nodeBoard = new Board(node.getBoard(), node.getAdjecent());
 		if (nodeBoard.gameOver() || System.currentTimeMillis() == stopTime)
 			return calcScoreMinMax(nodeBoard.getBoard());
 		Set<Position> possibleMoves = nodeBoard.getAdjs();
 		Set<Position> flips;
 		Cellstate playerTurn;
 		int bestVal;
-		if (node.playerTurn == color) { // Maximize
+		if (node.getTurn() == color) { // Maximize
 			playerTurn = opponent;
 			bestVal = alpha;
 		} else { // Minimize
@@ -63,13 +63,13 @@ public class PlayerAI implements Player {
 		}
 		boolean breaking = false;
 		for (Position p : possibleMoves) {
-			flips = helper.evaluateMove(p, node.playerTurn, nodeBoard);
+			flips = helper.evaluateMove(p, node.getTurn(), nodeBoard);
 			if (!flips.isEmpty()) { // if legal move for player
-				Board newBoard = new Board(node.board, possibleMoves);
-				newBoard.placeMarker(p, node.playerTurn);
-				newBoard.flipMarkers(flips, node.playerTurn);
+				Board newBoard = new Board(node.getBoard(), possibleMoves);
+				newBoard.placeMarker(p, node.getTurn());
+				newBoard.flipMarkers(flips, node.getTurn());
 				int score;
-				if (node.playerTurn == color) {
+				if (node.getTurn() == color) {
 					score = miniMax(new GameNode(newBoard.getBoard(), newBoard.getAdjs(), playerTurn), stopTime, bestVal, beta);
 					bestVal = Math.max(bestVal, score);
 					if (bestVal <= beta)
@@ -85,7 +85,7 @@ public class PlayerAI implements Player {
 			if (breaking)
 				break;
 		}
-		if (node.playerTurn == color)
+		if (node.getTurn() == color)
 			return node.getMaxValue();
 		else
 			return node.getMinValue();

@@ -4,7 +4,7 @@ package reversi;
 import java.util.Arrays;
 
 public class Position1 {
-	int r, c;
+	protected int r, c;
 
 	public Position1(int r, int c) {
 		this.r = r;
@@ -13,8 +13,8 @@ public class Position1 {
 
 	@Override
 	public boolean equals(Object other){
-		if (other instanceof Position) {
-			Position p = (Position) other;
+		if (other instanceof Position1) {
+			Position1 p = (Position1) other;
 			return p.r==r && p.c==c;
 		}
 		return false;

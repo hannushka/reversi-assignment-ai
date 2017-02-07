@@ -42,7 +42,7 @@ public class PlayerHuman implements Player {
 	private Position getMoveFromPlayer(Set<Position> adjs) {
 		System.out.print("Your choice: ");
 		String input = sc.next();
-		System.out.println(input);
+		//System.out.println(input);
 		Position p = board.getPositionFromCoords(input);
 		while (!input.matches("[1-8][a-h]") || !board.isMoveAllowed(p) && input.length() == 0) {
 			System.out.println("That move is not allowed. Try again!");

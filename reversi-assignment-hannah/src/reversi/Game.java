@@ -30,13 +30,12 @@ public class Game {
 		if(player2type == 0){
 			player2 = new PlayerAI(Cellstate.BLACK, board, new Helper());
 		} else {
-			player2 = new PlayerHuman(sc, Cellstate.WHITE, board, new Helper());
+			player2 = new PlayerHuman(sc, Cellstate.BLACK, board, new Helper());
 		}
 	
 	}
 
-	public void play() {
-		int time = sc.nextInt();
+	public void play(int time) {
 		player1.setTimeLimit(time);
 		player2.setTimeLimit(time);
 		
@@ -79,14 +78,15 @@ public class Game {
 
 	public static void main(String[] args) throws InterruptedException {
 		int p1 = 0, p2 = 0;
-		/*Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner(System.in);
 		System.out.println("Chose which player to be AI (can be both, don't recommend none).");
 		System.out.print("Player white type (0 is AI): ");
 		p1 = scan.nextInt();
 		System.out.print("Player black type (0 is AI): ");
-		p2 = scan.nextInt();*/
+		p2 = scan.nextInt();
 		System.out.print("Time limit for AI players (ms): ");
-		new Game(p1, p2).play();
-		//scan.close();
+		int time = scan.nextInt();
+		new Game(p1, p2).play(time);
+		scan.close();
 	}
 }

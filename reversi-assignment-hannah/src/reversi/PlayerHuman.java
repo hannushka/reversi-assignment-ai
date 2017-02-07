@@ -21,7 +21,7 @@ public class PlayerHuman implements Player {
 	public int playerMove() {
 		if (isMovePossible()) {
 			Set<Position> adjs = board.getAdjs();
-			System.out.println("Your turn " + "player " + color + "! Where would you like to place a marker?");
+			System.out.println("Your turn " + "player " + color + "! \nWhere would you like to place a marker?");
 			Position p = getMoveFromPlayer(adjs);
 			Set<Position> flips = helper.evaluateMove(p, color, board);
 			// Placing and flipping
@@ -67,4 +67,7 @@ public class PlayerHuman implements Player {
 	public Cellstate getColor() {
 		return color;
 	}
+
+	@Override
+	public void setTimeLimit(int timeLimit) {}
 }

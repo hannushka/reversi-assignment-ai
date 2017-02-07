@@ -12,9 +12,8 @@ public class PlayerAI implements Player {
 	private Helper helper;
 	private int timeLimit;
 
-	public PlayerAI(Cellstate c, Board b, Helper h, int timeLimit) {
+	public PlayerAI(Cellstate c, Board b, Helper h) {
 		this.color = c;
-		this.timeLimit = timeLimit;
 		if (c == Cellstate.WHITE)
 			opponent = Cellstate.BLACK;
 		else
@@ -23,6 +22,10 @@ public class PlayerAI implements Player {
 		helper = h;
 	}
 
+	public void setTimeLimit(int timeLimit){
+		this.timeLimit = timeLimit;
+	}
+	
 	public int playerMove() {
 		GameNode root = new GameNode(board.getBoard(), board.getAdjs(),color);
 		miniMax(root, System.currentTimeMillis()+timeLimit, Integer.MIN_VALUE, Integer.MAX_VALUE);

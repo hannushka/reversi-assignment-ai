@@ -3,10 +3,10 @@ package reversi;
 
 import java.util.Arrays;
 
-public class Position {
+public class Position1 {
 	int r, c;
 
-	public Position(int r, int c) {
+	public Position1(int r, int c) {
 		this.r = r;
 		this.c = c;
 	}

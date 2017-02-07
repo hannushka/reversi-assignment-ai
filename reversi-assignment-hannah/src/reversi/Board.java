@@ -30,7 +30,7 @@ public class Board {
 		addAdj(4,3);
 		addAdj(4,4);
 	}
-	
+
 	public Board(Cellstate[][] board, Set<Position> adj) {
 		this.board = new Cellstate[SIZE][SIZE];
 		for (int i = 0 ; i < SIZE ; i++) {

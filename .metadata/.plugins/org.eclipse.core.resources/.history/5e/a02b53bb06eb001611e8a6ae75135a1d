@@ -1,5 +1,0 @@
-package reversiassignment;
-
-public class GameNode {
-	private List<P>
-}

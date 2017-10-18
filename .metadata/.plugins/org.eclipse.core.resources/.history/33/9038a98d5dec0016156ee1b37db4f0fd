@@ -1,5 +1,0 @@
-package reversiassignment;
-
-public interface Player {
-	public void playerMove();
-}

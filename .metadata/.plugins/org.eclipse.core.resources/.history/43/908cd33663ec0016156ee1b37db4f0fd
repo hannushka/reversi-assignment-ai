@@ -1,6 +1,0 @@
-package reversiassignment;
-
-public interface Player {
-	public int playerMove();
-	public int getScore();
-}

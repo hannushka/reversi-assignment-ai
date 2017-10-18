@@ -1,7 +1,0 @@
-package reversiassignment;
-
-import reversiassignment.Board.Cellstate;
-
-public interface Player {
-
-}

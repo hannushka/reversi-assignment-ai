@@ -1,6 +1,0 @@
-package reversiassignment;
-
-public class GameNode {
-	Board b;
-	Cellstate playerTurn;
-}
